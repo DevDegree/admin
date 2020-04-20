@@ -1,19 +1,9 @@
-import React, {useState, useCallback} from "react";
+import React, {useState} from "react";
 import {Button, Tabs, Filters, Page, Card, ResourceList, ResourceItem, TextStyle, Stack, Badge, ButtonGroup} from '@shopify/polaris'
 import {ExportMinor, StarFilledMinor, SortMinor, LocationsMinor} from '@shopify/polaris-icons';
 
 function Orders() {
   const [selectedItems, setSelectedItems] = useState([]);
-  const [queryValue, setQueryValue] = useState(null);
-
-  const handleQueryValueChange = useCallback(
-    (value) => setQueryValue(value),
-    [],
-  );
-  const handleQueryValueRemove = useCallback(() => setQueryValue(null), []);
-  const handleClearAll = useCallback(() => {
-    handleQueryValueRemove();
-  }, [handleQueryValueRemove]);
 
   const resourceName = {
     singular: 'order',
@@ -23,7 +13,6 @@ function Orders() {
   const items = [
     {
       id: 1023,
-      url: 'orders/1023',
       date: 'Feb. 25 at 05:54 p.m.',
       customer: 'Kezia Adamo',
       payment: 'paid',
@@ -32,7 +21,6 @@ function Orders() {
     },
     {
       id: 1022,
-      url: 'orders/1022',
       date: 'Feb. 8 at 05:57 p.m.',
       customer: 'Liam Sauve',
       payment: 'paid',
@@ -41,20 +29,39 @@ function Orders() {
     },
     {
       id: 1021,
-      url: 'orders/1021',
       date: 'Feb. 7 at 12:57 p.m.',
       customer: 'Travin Martin',
       payment: 'paid',
       fulfillment: 'fulfilled',
       total: '$47.06'
     },
-  ];
-  
-  const bulkActions = [
     {
-      content: 'Edit order',
+      id: 1020,
+      date: 'Oct. 17, 2019',
+      customer: 'Owen Deery',
+      payment: 'paid',
+      fulfillment: 'fulfilled',
+      total: '$22.49'
+    },
+    {
+      id: 1019,
+      date: 'Oct. 17, 2019',
+      customer: 'Kezia Adamo',
+      payment: 'paid',
+      fulfillment: 'fulfilled',
+      total: '$76.55'
+    },
+    {
+      id: 1018,
+      date: 'Oct. 13, 2019',
+      customer: 'Graeme Fotheringham',
+      payment: 'paid',
+      fulfillment: 'fulfilled',
+      total: '$40.33'
     },
   ];
+  
+  const bulkActions = [{content: 'Edit order'}];
 
   const filters = [
     {
@@ -80,14 +87,7 @@ function Orders() {
   ];
 
   const filterControl = (
-    <Filters
-      queryValue={queryValue}
-      filters={filters}
-      onQueryChange={handleQueryValueChange}
-      onQueryClear={handleQueryValueRemove}
-      onClearAll={handleClearAll}
-      
-    >
+    <Filters filters={filters}>
       <div style={{paddingLeft: '8px'}}>
         <ButtonGroup>
           <Button icon={StarFilledMinor} disabled>Saved</Button>
@@ -118,14 +118,9 @@ function Orders() {
       actionGroups={[
         {
           title: 'More actions',
-          actions: [
-            {
-              content: 'Do something'
-            },
-          ],
+          actions: [{content: 'Do something'}],
         },
-      ]}
-    >
+      ]}>
       <Card>
         <Tabs tabs={tabs} selected={0}>
           <Stack distribution='trailing'>
@@ -153,9 +148,8 @@ function Orders() {
         id={id}
         url={url}
         accessibilityLabel={`View details for ${customer}`}
-        persistActions
-      >
-        <Stack >
+        persistActions>
+        <Stack>
           <Stack.Item fill>
             <Stack distribution="fillEvenly">
               <p>#{id}</p>

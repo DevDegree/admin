@@ -1,19 +1,9 @@
-import React, {useState, useCallback} from "react";
+import React, {useState} from "react";
 import {Button, Tabs, Filters, Page, Card, ResourceList, ResourceItem, TextStyle, Stack, Thumbnail, ButtonGroup} from '@shopify/polaris'
 import {ExportMinor, ImportMinor, StarFilledMinor, SortMinor} from '@shopify/polaris-icons';
 
 function Products() {
   const [selectedItems, setSelectedItems] = useState([]);
-  const [queryValue, setQueryValue] = useState(null);
-
-  const handleQueryValueChange = useCallback(
-    (value) => setQueryValue(value),
-    [],
-  );
-  const handleQueryValueRemove = useCallback(() => setQueryValue(null), []);
-  const handleClearAll = useCallback(() => {
-    handleQueryValueRemove();
-  }, [handleQueryValueRemove]);
 
   const resourceName = {
     singular: 'product',
@@ -44,14 +34,18 @@ function Products() {
       type: 'My hat',
       vendor: 'Apt Ghost',
       image: 'https://cdn.shopify.com/s/files/1/2338/5981/products/mockup-5b38be34_1080x.png?v=1516379226'
+    },
+    {
+      id: 4,
+      product: 'Dirty Magic Mug',
+      inventory: 'Inventory not tracked',
+      type: '',
+      vendor: 'Dirty Rectangles Merchanise',
+      image: 'https://cdn.shopify.com/s/files/1/2338/5981/products/mockup-d824bf92_540x.png?v=1581094220'
     }
   ];
   
-  const bulkActions = [
-    {
-      content: 'Edit product',
-    },
-  ];
+  const bulkActions = [{ content: 'Edit product', }];
 
   const filters = [
     {
@@ -77,14 +71,7 @@ function Products() {
   ];
 
   const filterControl = (
-    <Filters
-      queryValue={queryValue}
-      filters={filters}
-      onQueryChange={handleQueryValueChange}
-      onQueryClear={handleQueryValueRemove}
-      onClearAll={handleClearAll}
-      
-    >
+    <Filters filters={filters}>
       <div style={{paddingLeft: '8px'}}>
         <ButtonGroup>
           <Button icon={StarFilledMinor} disabled>Saved</Button>
@@ -94,9 +81,7 @@ function Products() {
     </Filters>
   );
 
-  const tabs = [
-    { content: 'All' },
-  ];
+  const tabs = [{ content: 'All' }];
 
   return (
     <Page
@@ -116,11 +101,7 @@ function Products() {
       actionGroups={[
         {
           title: 'More actions',
-          actions: [
-            {
-              content: 'Do something'
-            },
-          ],
+          actions: [{content: 'Do something'}],
         },
       ]}
     >
@@ -147,21 +128,15 @@ function Products() {
         id={id}
         url={url}
         accessibilityLabel={`View details for ${product}`}
-        persistActions
-      >
+        persistActions>
         <Stack alignment='center' distribution="fillEvenly">
-            <Stack alignment='center'>
-              <Thumbnail
-                source={image}
-                alt="Black choker necklace"
-              />
-              <TextStyle variation="strong">{product}</TextStyle>
-            </Stack>
-         
-            <TextStyle variation="subdued">{inventory}</TextStyle>
-            <p>{type}</p>
-            <p>{vendor}</p>
-         
+          <Stack alignment='center'>
+            <Thumbnail source={image} alt=""/>
+            <TextStyle variation="strong">{product}</TextStyle>
+          </Stack>
+          <TextStyle variation="subdued">{inventory}</TextStyle>
+          <p>{type}</p>
+          <p>{vendor}</p>
         </Stack>
       </ResourceItem>
     );
